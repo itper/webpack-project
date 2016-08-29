@@ -21,5 +21,9 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.2.2",
+    "eslint-plugin-react": "^6.0.0"
   }
 }

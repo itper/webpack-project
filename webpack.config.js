@@ -12,13 +12,21 @@ module.exports = {
         filename:'[name].js'
     },
     resolve:{
-        extensions:['','.js','.jsx'],
+        extensions:['.jsx','.js',''],
         moduleDirectories:['node_modules']
     },
     module:{
+        preLoaders:[
+            {
+
+                test:/\.js$/,
+                loader:'eslint-loader?{rules:{semi:0}}',
+                exclude:/node_modules/
+            }
+        ],
         loaders:[
             {
-                test:/\.jsx?/,
+                test:/\.jsx$/,
                 include:path.join(__dirname,'/app'),
                 exclude: /(node_modules)/,
                 loader:'babel-loader',
@@ -37,11 +45,24 @@ module.exports = {
                 loader:'url-loader?limit=8192',
                 exclude: /(node_modules)/
             }
+        ],
+        noParse:[
+
         ]
     },
-     plugins: [
-        new CommonsChunkPlugin('init.js')
-      ]
+    plugins: [
+        new CommonsChunkPlugin({
+            name:['init','init1'],
+            minChunks:2,
+            chunks:['app1','app']//从entry-output的指定文件中提取公共.
+        }),
+        new webpack.DefinePlugin({
+            __DEBUG__:true
+        })
+    ],
+    eslint:{
+        configFile:path.join(__dirname,'.eslintrc.json')
+    }
 };
 
 
